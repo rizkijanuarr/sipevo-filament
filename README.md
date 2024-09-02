@@ -69,7 +69,6 @@
 - [ ] Jobs Quee Monitor not Work
 - [ ] API For consume on Mobile Apps
 
----
 ## License
 
-MIT © [Rizki Januar Irmansyah](https://github.com/rizkijanuarr)
+MIT © [Rizki Januar Irmansyah](https://github.com/rizkijanuarr/sipevo-filament)
