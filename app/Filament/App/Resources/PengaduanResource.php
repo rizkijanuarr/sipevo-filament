@@ -56,6 +56,8 @@ class PengaduanResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                ->circular(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
@@ -66,7 +68,6 @@ class PengaduanResource extends Resource
                     ->color(fn($state) => $state->getColor()),
                 Tables\Columns\TextColumn::make('location')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

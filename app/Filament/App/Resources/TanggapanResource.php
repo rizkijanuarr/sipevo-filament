@@ -41,10 +41,11 @@ class TanggapanResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('pengaduan.title')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
