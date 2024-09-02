@@ -15,8 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TanggapanResource extends Resource
 {
+    use \App\Traits\HasNavigationBadge;
     protected static ?string $navigationGroup = 'Master Data';
     protected static ?string $navigationIcon = 'heroicon-o-folder';
+
     protected static ?string $model = Tanggapan::class;
 
     public static function form(Form $form): Form
