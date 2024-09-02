@@ -7,8 +7,10 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\Pengaduan;
 use Filament\Tables\Table;
+use App\Enums\PengaduanStatus;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
+use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PengaduanResource\Pages;
@@ -57,7 +59,7 @@ class PengaduanResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                ->circular(),
+                    ->circular(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
@@ -148,19 +150,20 @@ class PengaduanResource extends Resource
                             echo $pdf->stream();
                         }, 'pengaduan-' . now()->format('Y-m-d_H-i-s') . '.pdf');
                     }),
-                    // Tables\Actions\ImportAction::make()
-                    //     ->label('Import Post')
-                    //     ->color('info')
-                    //     ->button()
-                    //     ->icon('heroicon-o-document-arrow-down')
-                    //     ->importer(PostImporter::class),
+                // Tables\Actions\ImportAction::make()
+                //     ->label('Import Post')
+                //     ->color('info')
+                //     ->button()
+                //     ->icon('heroicon-o-document-arrow-down')
+                //     ->importer(PostImporter::class),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePengaduans::route('/'),
+            'index' => Pages\ListPengaduans::route('/'),
+            'create' => Pages\CreatePengaduan::route('/create'),
         ];
     }
 }
