@@ -10,23 +10,17 @@ use App\Models\User;
 
 class TanggapanFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Tanggapan::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
+        Tanggapan::unsetEventDispatcher();
+        $faker = \Faker\Factory::create('id_ID');
+
         return [
-            'pengaduan_id' => Pengaduan::factory(),
-            'user_id' => User::factory(),
-            'comment' => $this->faker->text(),
-            'image' => $this->faker->word(),
+            'pengaduan_id' => rand(1, 100),
+            'user_id' => 2,
+            'comment' => $faker->text(),
         ];
     }
 }

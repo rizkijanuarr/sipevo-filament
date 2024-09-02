@@ -2,9 +2,9 @@ created:
     - database/factories/CategoryFactory.php
     - database/factories/PengaduanFactory.php
     - database/factories/TanggapanFactory.php
-    - database/migrations/2024_09_02_053953_create_categories_table.php
-    - database/migrations/2024_09_02_053954_create_pengaduans_table.php
-    - database/migrations/2024_09_02_053955_create_tanggapans_table.php
+    - database/migrations/2024_09_02_062843_create_categories_table.php
+    - database/migrations/2024_09_02_062844_create_pengaduans_table.php
+    - database/migrations/2024_09_02_062845_create_tanggapans_table.php
     - app/Models/Category.php
     - app/Models/Pengaduan.php
     - app/Models/Tanggapan.php
