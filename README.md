@@ -1,7 +1,7 @@
 # Sistem Informasi Pengaduan Vokasi
 
 > SIPEVO
-<img src="asset-sipevo-filament/cover.png" width="800" height="400">
+<img src="asset-sipevo-filament/cover.png" width="200" height="200">
 
 ----
 
