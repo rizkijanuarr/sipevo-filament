@@ -1,0 +1,25 @@
+models:
+  Category:
+    name: string
+    slug: string unique
+    relationships:
+      hasMany: Pengaduan
+
+  Pengaduan:
+    category_id: foreign nullable
+    user_id: foreign nullable
+    title: string
+    description: text
+    location: string
+    image: string nullable
+    status: string nullable
+    relationships:
+      hasMany: Tanggapan
+
+  Tanggapan:
+    pengaduan_id: foreign nullable
+    user_id: foreign nullable
+    comment: text
+    image: string nullable
+
+seeders: Category, Pengaduan, Tanggapan

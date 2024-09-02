@@ -1,0 +1,18 @@
+created:
+    - database/factories/CategoryFactory.php
+    - database/factories/PengaduanFactory.php
+    - database/factories/TanggapanFactory.php
+    - database/migrations/2024_09_02_053953_create_categories_table.php
+    - database/migrations/2024_09_02_053954_create_pengaduans_table.php
+    - database/migrations/2024_09_02_053955_create_tanggapans_table.php
+    - app/Models/Category.php
+    - app/Models/Pengaduan.php
+    - app/Models/Tanggapan.php
+    - database/seeders/CategorySeeder.php
+    - database/seeders/PengaduanSeeder.php
+    - database/seeders/TanggapanSeeder.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Category: { name: string, slug: 'string unique', relationships: { hasMany: Pengaduan } }
+    Pengaduan: { category_id: 'foreign nullable', user_id: 'foreign nullable', title: string, description: text, location: string, image: 'string nullable', status: 'string nullable', relationships: { hasMany: Tanggapan } }
+    Tanggapan: { pengaduan_id: 'foreign nullable', user_id: 'foreign nullable', comment: text, image: 'string nullable' }
