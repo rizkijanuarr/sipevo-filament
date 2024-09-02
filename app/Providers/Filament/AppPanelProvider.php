@@ -10,6 +10,7 @@ use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -67,7 +68,7 @@ class AppPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop() // ++
             // ++
             ->plugins([
-                // FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make(),
                 FilamentProgressbarPlugin::make()->color('#dc4977'),
                 FilamentBackgroundsPlugin::make(),
                 FilamentJobsMonitorPlugin::make()
