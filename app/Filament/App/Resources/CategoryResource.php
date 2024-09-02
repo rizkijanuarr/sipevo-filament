@@ -38,6 +38,7 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -56,8 +57,25 @@ class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('gray'),
+                    Tables\Actions\EditAction::make()
+                        ->color('gray'),
+                    Tables\Actions\Action::make('divider')->label('')->disabled(),
+                    Tables\Actions\DeleteAction::make()
+                        ->before(function (Category $category) {
+                            // Hapus relasi pengaduan
+                            foreach ($category->pengaduans as $pengaduan) {
+                                // Hapus relasi tanggapan
+                                $pengaduan->tanggapans()->delete();
+                                $pengaduan->delete();
+                            }
+                            // Hapus kategori
+                            $category->delete();
+                        }),
+                ])
+                    ->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

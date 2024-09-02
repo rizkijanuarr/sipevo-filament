@@ -7,7 +7,6 @@ models:
 
   Pengaduan:
     category_id: foreign nullable
-    user_id: foreign nullable
     title: string
     description: text
     location: string
@@ -18,7 +17,6 @@ models:
 
   Tanggapan:
     pengaduan_id: foreign nullable
-    user_id: foreign nullable
     comment: text
     image: string nullable
 

@@ -28,6 +28,7 @@ class PengaduanResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name'),
                 Forms\Components\Select::make('user_id')
+                    ->label("Name")
                     ->relationship('user', 'name'),
                 Forms\Components\TextInput::make('title')
                     ->required()
@@ -41,27 +42,37 @@ class PengaduanResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->image(),
                 Forms\Components\TextInput::make('status')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->afterStateUpdated(function ($state, $component, $form) {
+                        $record = $form->getRecord();
+                        $record->byDefaultPending();
+
+                        // Memperbarui state field secara eksplisit
+                        $form->state['status'] = \App\Enums\PengaduanStatus::PENDING;
+                    }),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label("Name")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn($state) => $state->getColor()),
                 Tables\Columns\TextColumn::make('location')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -75,8 +86,32 @@ class PengaduanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('gray'),
+                    Tables\Actions\EditAction::make()
+                        ->color('gray'),
+                    Tables\Actions\Action::make('edit-transaction')
+                        ->visible(fn(Pengaduan $record) => $record->status === \App\Enums\PengaduanStatus::PENDING)
+                        ->label('Edit Transaction')
+                        ->icon('heroicon-o-pencil'),
+                    Tables\Actions\Action::make('mark-as-complete')
+                        ->visible(fn(Pengaduan $record) => $record->status === \App\Enums\PengaduanStatus::PENDING)
+                        ->requiresConfirmation()
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(fn(Pengaduan $record) => $record->markAsComplete())
+                        ->label('Mark as Complete'),
+                    Tables\Actions\Action::make('divider')->label('')->disabled(),
+                    Tables\Actions\DeleteAction::make()
+                        ->before(function (Pengaduan $pengaduan) {
+                            // Hapus tanggapan
+                            $pengaduan->tanggapans()->delete();
+                            // Hapus pengaduan
+                            $pengaduan->delete();
+                        }),
+                ])
+                    ->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

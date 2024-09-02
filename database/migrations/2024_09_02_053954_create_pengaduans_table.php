@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::disableForeignKeyConstraints();
@@ -16,7 +13,6 @@ return new class extends Migration
         Schema::create('pengaduans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->nullable()->constrained();
-            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('title');
             $table->text('description');
             $table->string('location');
@@ -28,9 +24,6 @@ return new class extends Migration
         Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pengaduans');

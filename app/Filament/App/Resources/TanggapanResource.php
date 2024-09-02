@@ -28,6 +28,7 @@ class TanggapanResource extends Resource
                 Forms\Components\Select::make('pengaduan_id')
                     ->relationship('pengaduan', 'title'),
                 Forms\Components\Select::make('user_id')
+                    ->label("Name")
                     ->relationship('user', 'name'),
                 Forms\Components\Textarea::make('comment')
                     ->required()
@@ -40,11 +41,13 @@ class TanggapanResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('pengaduan.title')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label("Name")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image'),
@@ -61,8 +64,18 @@ class TanggapanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('gray'),
+                    Tables\Actions\EditAction::make()
+                        ->color('gray'),
+                    Tables\Actions\Action::make('divider')->label('')->disabled(),
+                    Tables\Actions\DeleteAction::make()
+                        ->before(function (Tanggapan $tanggapan) {
+                            $tanggapan->delete();
+                        }),
+                ])
+                    ->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -15,6 +15,18 @@ class Pengaduan extends Model
         'status' => \App\Enums\PengaduanStatus::class,
     ];
 
+    public function markAsComplete(): void
+    {
+        $this->status = \App\Enums\PengaduanStatus::COMPLETED;
+        $this->save();
+    }
+
+    public function byDefaultPending(): void
+    {
+        $this->status = \App\Enums\PengaduanStatus::PENDING;
+        $this->save();
+    }
+
     public function tanggapans(): HasMany
     {
         return $this->hasMany(\App\Models\Tanggapan::class);

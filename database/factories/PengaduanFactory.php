@@ -19,7 +19,6 @@ class PengaduanFactory extends Factory
 
         return [
             'category_id' => rand(1, 10),
-            'user_id' => 1,
             'title' => $faker->sentence(),
             'description' => $faker->paragraph(),
             'location' => $faker->address(),
