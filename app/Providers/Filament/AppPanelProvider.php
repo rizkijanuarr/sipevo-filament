@@ -14,6 +14,7 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -70,7 +71,11 @@ class AppPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
                 FilamentProgressbarPlugin::make()->color('#dc4977'),
-                FilamentBackgroundsPlugin::make(),
+                FilamentBackgroundsPlugin::make()
+                    ->imageProvider(
+                    MyImages::make()
+                        ->directory('images/swisnl/filament-backgrounds/curated-by-swis/')
+                ),
                 FilamentJobsMonitorPlugin::make()
                 ->enableNavigation(),
             ])
