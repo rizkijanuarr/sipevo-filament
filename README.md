@@ -64,10 +64,10 @@
 - [x] CRUD Tanggapan
 - [x] CRUD Users
 - [x] Export Excel, CSV, PDF
-- [] Import use CSV
-- [] Query on summary total Pengaduan use widgets
-- [] Jobs Quee Monitor not Work
-- [] API For consume on Mobile Apps
+- [ ] Import use CSV
+- [ ] Query on summary total Pengaduan use widgets
+- [ ] Jobs Quee Monitor not Work
+- [ ] API For consume on Mobile Apps
 
 ---
 ## License
