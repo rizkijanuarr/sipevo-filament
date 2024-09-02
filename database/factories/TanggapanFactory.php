@@ -18,7 +18,7 @@ class TanggapanFactory extends Factory
         $faker = \Faker\Factory::create('id_ID');
 
         return [
-            'pengaduan_id' => rand(1, 100),
+            'pengaduan_id' => rand(1, 1000),
             'comment' => $faker->text(),
         ];
     }

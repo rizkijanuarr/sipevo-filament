@@ -14,11 +14,18 @@ class CategoryFactory extends Factory
     {
         $faker = \Faker\Factory::create('id_ID');
 
+        $name = $faker->unique()->word();
+        $slug = Str::slug($name);
+
+        // Memastikan slug unik dengan loop jika perlu
+        while (Category::where('slug', $slug)->exists()) {
+            $name = $faker->unique()->word();
+            $slug = Str::slug($name);
+        }
+
         return [
-            'name' => $faker->unique()->word(),
-            'slug' => function (array $attributes) {
-                return Str::slug($attributes['name']);
-            },
+            'name' => $name,
+            'slug' => $slug,
         ];
     }
 }

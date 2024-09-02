@@ -2,16 +2,17 @@
 
 namespace App\Filament\App\Resources;
 
-use App\Filament\App\Resources\TanggapanResource\Pages;
-use App\Filament\App\Resources\TanggapanResource\RelationManagers;
-use App\Models\Tanggapan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Tanggapan;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\App\Resources\TanggapanResource\Pages;
+use App\Filament\App\Resources\TanggapanResource\RelationManagers;
 
 class TanggapanResource extends Resource
 {
@@ -27,9 +28,6 @@ class TanggapanResource extends Resource
             ->schema([
                 Forms\Components\Select::make('pengaduan_id')
                     ->relationship('pengaduan', 'title'),
-                Forms\Components\Select::make('user_id')
-                    ->label("Name")
-                    ->relationship('user', 'name'),
                 Forms\Components\Textarea::make('comment')
                     ->required()
                     ->columnSpanFull(),
@@ -44,10 +42,6 @@ class TanggapanResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('pengaduan.title')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label("Name")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image'),
@@ -100,23 +94,23 @@ class TanggapanResource extends Resource
                     ->exporter(\App\Filament\Exports\TanggapanExporter::class),
 
                 // Tombol untuk ekspor ke PDF
-                // Tables\Actions\Action::make('print')
-                //     ->label('Export PDF')
-                //     ->button()
-                //     ->icon('heroicon-o-document-text')
-                //     ->color('danger')
-                //     ->action(function () {
-                //         $posts = Post::paginate(10); // Adjust the pagination as needed
-                //         // dd($posts); // Debugging purpose
+                Tables\Actions\Action::make('print')
+                    ->label('Export PDF')
+                    ->button()
+                    ->icon('heroicon-o-document-text')
+                    ->color('danger')
+                    ->action(function () {
+                        $tanggapans = Tanggapan::paginate(10); // Adjust the pagination as needed
+                        // dd($tanggapans); // Debugging purpose
 
-                //         $pdf = Pdf::loadView('pdf.print-post', [
-                //             'posts' => $posts,
-                //         ]);
+                        $pdf = Pdf::loadView('pdf.tanggapan.print-tanggapan', [
+                            'tanggapans' => $tanggapans,
+                        ]);
 
-                //         return response()->streamDownload(function () use ($pdf) {
-                //             echo $pdf->stream();
-                //         }, 'posts-' . now()->format('Y-m-d_H-i-s') . '.pdf');
-                //     }),
+                        return response()->streamDownload(function () use ($pdf) {
+                            echo $pdf->stream();
+                        }, 'tanggapan-' . now()->format('Y-m-d_H-i-s') . '.pdf');
+                    }),
                 //     Tables\Actions\ImportAction::make()
                 //         ->label('Import Post')
                 //         ->color('info')

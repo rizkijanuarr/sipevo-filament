@@ -2,16 +2,17 @@
 
 namespace App\Filament\App\Resources;
 
-use App\Filament\App\Resources\PengaduanResource\Pages;
-use App\Filament\App\Resources\PengaduanResource\RelationManagers;
-use App\Models\Pengaduan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Pengaduan;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\App\Resources\PengaduanResource\Pages;
+use App\Filament\App\Resources\PengaduanResource\RelationManagers;
 
 class PengaduanResource extends Resource
 {
@@ -27,9 +28,6 @@ class PengaduanResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name'),
-                Forms\Components\Select::make('user_id')
-                    ->label("Name")
-                    ->relationship('user', 'name'),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
@@ -59,10 +57,6 @@ class PengaduanResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label("Name")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
@@ -136,29 +130,29 @@ class PengaduanResource extends Resource
                     ->exporter(\App\Filament\Exports\PengaduanExporter::class),
 
                 // Tombol untuk ekspor ke PDF
-                // Tables\Actions\Action::make('print')
-                //     ->label('Export PDF')
-                //     ->button()
-                //     ->icon('heroicon-o-document-text')
-                //     ->color('danger')
-                //     ->action(function () {
-                //         $posts = Post::paginate(10); // Adjust the pagination as needed
-                //         // dd($posts); // Debugging purpose
+                Tables\Actions\Action::make('print')
+                    ->label('Export PDF')
+                    ->button()
+                    ->icon('heroicon-o-document-text')
+                    ->color('danger')
+                    ->action(function () {
+                        $pengaduans = Pengaduan::paginate(10); // Adjust the pagination as needed
+                        // dd($pengaduan); // Debugging purpose
 
-                //         $pdf = Pdf::loadView('pdf.print-post', [
-                //             'posts' => $posts,
-                //         ]);
+                        $pdf = Pdf::loadView('pdf.pengaduan.print-pengaduan', [
+                            'pengaduans' => $pengaduans,
+                        ]);
 
-                //         return response()->streamDownload(function () use ($pdf) {
-                //             echo $pdf->stream();
-                //         }, 'posts-' . now()->format('Y-m-d_H-i-s') . '.pdf');
-                //     }),
-                //     Tables\Actions\ImportAction::make()
-                //         ->label('Import Post')
-                //         ->color('info')
-                //         ->button()
-                //         ->icon('heroicon-o-document-arrow-down')
-                //         ->importer(PostImporter::class),
+                        return response()->streamDownload(function () use ($pdf) {
+                            echo $pdf->stream();
+                        }, 'pengaduan-' . now()->format('Y-m-d_H-i-s') . '.pdf');
+                    }),
+                    // Tables\Actions\ImportAction::make()
+                    //     ->label('Import Post')
+                    //     ->color('info')
+                    //     ->button()
+                    //     ->icon('heroicon-o-document-arrow-down')
+                    //     ->importer(PostImporter::class),
             ]);
     }
 

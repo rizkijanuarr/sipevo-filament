@@ -18,7 +18,7 @@ class PengaduanFactory extends Factory
         $faker = \Faker\Factory::create('id_ID');
 
         return [
-            'category_id' => rand(1, 10),
+            'category_id' => rand(1, 5),
             'title' => $faker->sentence(),
             'description' => $faker->paragraph(),
             'location' => $faker->address(),
