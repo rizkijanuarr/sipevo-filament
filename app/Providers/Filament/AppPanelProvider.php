@@ -19,6 +19,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -69,6 +70,8 @@ class AppPanelProvider extends PanelProvider
                 // FilamentShieldPlugin::make(),
                 FilamentProgressbarPlugin::make()->color('#dc4977'),
                 FilamentBackgroundsPlugin::make(),
+                FilamentJobsMonitorPlugin::make()
+                ->enableNavigation(),
             ])
             ->resources([
                 config('filament-logger.activity_resource')
