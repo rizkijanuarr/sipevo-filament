@@ -14,6 +14,10 @@ class Pengaduan extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'status' => \App\Enums\PengaduanStatus::class,
+    ];
+
     public function tanggapans(): HasMany
     {
         return $this->hasMany(Tanggapan::class);
