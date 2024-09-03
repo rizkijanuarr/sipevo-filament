@@ -7,7 +7,10 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Hasnayeen\Themes\ThemesPlugin;
 use Filament\Http\Middleware\Authenticate;
+use Awcodes\FilamentGravatar\GravatarPlugin;
+use Awcodes\FilamentGravatar\GravatarProvider;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -21,7 +24,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -33,14 +35,18 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('/') // ++
             ->login() // ++
+
             ->registration() // ++
             ->brandName('Sistem Pengaduan Vokasi') // ++
+            ->brandLogo(asset('images/u.png'))
+            ->brandLogoHeight('3.2rem')
+            ->favicon(asset('images/logo.png'))
             // ++
             ->navigationGroups([
                 'Master Data',
             ])
             ->colors([
-                'primary' => Color::Blue, // ++
+                'primary' => Color::Amber, // ++
             ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
@@ -70,14 +76,14 @@ class AppPanelProvider extends PanelProvider
             // ++
             ->plugins([
                 FilamentShieldPlugin::make(),
-                FilamentProgressbarPlugin::make()->color('#dc4977'),
+                FilamentProgressbarPlugin::make()->color('#fbc03a'),
+                FilamentShieldPlugin::make(),
                 FilamentBackgroundsPlugin::make()
                     ->imageProvider(
                     MyImages::make()
                         ->directory('images/swisnl/filament-backgrounds/curated-by-swis/')
                 ),
-                FilamentJobsMonitorPlugin::make()
-                ->enableNavigation(),
+
             ])
             ->resources([
                 config('filament-logger.activity_resource')

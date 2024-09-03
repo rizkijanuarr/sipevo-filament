@@ -9,7 +9,6 @@
         "aymanalhattami/filament-slim-scrollbar": "^2.0",
         "barryvdh/laravel-dompdf": "^3.0",
         "bezhansalleh/filament-shield": "^3.2",
-        "croustibat/filament-jobs-monitor": "^2.5",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",

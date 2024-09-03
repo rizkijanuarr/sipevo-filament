@@ -55,19 +55,21 @@ class PengaduanResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar')
+                    ->sortable()
                     ->circular(),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Judul')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
+                    ->sortable()
                     ->color(fn($state) => $state->getColor()),
-                Tables\Columns\TextColumn::make('location')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Tanggal Pengaduan')
+                    ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -81,12 +83,15 @@ class PengaduanResource extends Resource
             ->actions([
                     Tables\Actions\ViewAction::make()
                         ->button()
+                        ->icon(false)
                         ->color('primary'),
                     Tables\Actions\EditAction::make()
                         ->button()
+                        ->icon(false)
                         ->color('success'),
                     Tables\Actions\DeleteAction::make()
                         ->button()
+                        ->icon(false)
                         ->color('danger')
                         ->before(function (Pengaduan $pengaduan) {
                             $pengaduan->tanggapans()->delete();
