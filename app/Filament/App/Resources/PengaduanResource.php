@@ -42,14 +42,10 @@ class PengaduanResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->image(),
                 Forms\Components\TextInput::make('status')
-                    ->maxLength(255)
-                    ->afterStateUpdated(function ($state, $component, $form) {
-                        $record = $form->getRecord();
-                        $record->byDefaultPending();
-
-                        // Memperbarui state field secara eksplisit
-                        $form->state['status'] = \App\Enums\PengaduanStatus::PENDING;
-                    }),
+                    ->default(fn($record) => $record && $record->status === \App\Enums\PengaduanStatus::PENDING)
+                    ->disabled()
+                    ->visible(false)
+                    ->maxLength(255),
             ]);
     }
 
@@ -83,32 +79,19 @@ class PengaduanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->color('gray'),
+                        ->button()
+                        ->color('primary'),
                     Tables\Actions\EditAction::make()
-                        ->color('gray'),
-                    Tables\Actions\Action::make('edit-transaction')
-                        ->visible(fn(Pengaduan $record) => $record->status === \App\Enums\PengaduanStatus::PENDING)
-                        ->label('Edit Transaction')
-                        ->icon('heroicon-o-pencil'),
-                    Tables\Actions\Action::make('mark-as-complete')
-                        ->visible(fn(Pengaduan $record) => $record->status === \App\Enums\PengaduanStatus::PENDING)
-                        ->requiresConfirmation()
-                        ->icon('heroicon-o-check-circle')
-                        ->color('success')
-                        ->action(fn(Pengaduan $record) => $record->markAsComplete())
-                        ->label('Mark as Complete'),
-                    Tables\Actions\Action::make('divider')->label('')->disabled(),
+                        ->button()
+                        ->color('success'),
                     Tables\Actions\DeleteAction::make()
+                        ->button()
+                        ->color('danger')
                         ->before(function (Pengaduan $pengaduan) {
-                            // Hapus tanggapan
                             $pengaduan->tanggapans()->delete();
-                            // Hapus pengaduan
                             $pengaduan->delete();
                         }),
-                ])
-                    ->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

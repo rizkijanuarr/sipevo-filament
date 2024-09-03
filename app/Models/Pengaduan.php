@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\PengaduanStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,9 +11,28 @@ class Pengaduan extends Model
 {
     use HasFactory;
 
+    // created
+    // TODO: Ini belum clean code, wajib explore lagi ya!
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (is_null($model->status)) {
+                $model->status = \App\Enums\PengaduanStatus::PENDING;
+            }
+        });
+    }
+
     protected $casts = [
         'status' => \App\Enums\PengaduanStatus::class,
     ];
+
+    public function markAsCanceled(): void
+    {
+        $this->status = \App\Enums\PengaduanStatus::CANCELLED;
+        $this->save();
+    }
 
     public function markAsComplete(): void
     {

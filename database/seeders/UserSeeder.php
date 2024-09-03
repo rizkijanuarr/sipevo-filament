@@ -24,6 +24,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
         ]);
-        \App\Models\User::factory(1000)->create();
+        // \App\Models\User::factory(10)->create();
     }
 }

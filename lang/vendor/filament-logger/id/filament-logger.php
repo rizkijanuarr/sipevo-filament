@@ -8,8 +8,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Pengaturan',
-    'nav.log.label' => 'Catatan Aktivitas',
+    'nav.group' => 'Settings',
+    'nav.log.label' => 'Aktivitas Sistem',
     'nav.log.icon' => 'heroicon-o-clipboard-document-list',
     'resource.label.log' => 'Catatan aktivitas',
     'resource.label.logs' => 'Catatan aktivitas',
