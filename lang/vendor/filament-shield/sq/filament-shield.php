@@ -7,11 +7,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'column.name' => 'Nama',
-    'column.guard_name' => 'Nama Penjaga',
-    'column.roles' => 'Peran',
-    'column.permissions' => 'Izin',
-    'column.updated_at' => 'Dirubah',
+    'column.name' => 'Emri',
+    'column.guard_name' => 'Emri i rojes',
+    'column.roles' => 'Rolet',
+    'column.permissions' => 'Lejet',
+    'column.updated_at' => 'Përditësuar në',
 
     /*
     |--------------------------------------------------------------------------
@@ -19,11 +19,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'field.name' => 'Nama',
-    'field.guard_name' => 'Nama Penjaga',
-    'field.permissions' => 'Izin',
-    'field.select_all.name' => 'Pilih Semua',
-    'field.select_all.message' => 'Aktifkan semua izin yang <span class="text-primary font-medium">Tersedia</span> untuk Peran ini.',
+    'field.name' => 'Emri',
+    'field.guard_name' => 'Emri i rojes',
+    'field.permissions' => 'Lejet',
+    'field.select_all.name' => 'Zgjidh të gjitha',
+    'field.select_all.message' => 'Aktivizo të gjitha lejet aktualisht <span class="text-primary font-medium">Aktivizuar</span> për këtë rol',
 
     /*
     |--------------------------------------------------------------------------
@@ -31,11 +31,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Manajamen Pengguna',
-    'nav.role.label' => 'Peran',
+    'nav.group' => 'Filament Shield',
+    'nav.role.label' => 'Rolet',
     'nav.role.icon' => 'heroicon-o-shield-check',
-    'resource.label.role' => 'Peran',
-    'resource.label.roles' => 'Peran',
+    'resource.label.role' => 'Rol',
+    'resource.label.roles' => 'Rolet',
 
     /*
     |--------------------------------------------------------------------------
@@ -43,11 +43,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'section' => 'Entitas',
-    'resources' => 'Sumber Daya',
-    'widgets' => 'Widget',
-    'pages' => 'Halaman',
-    'custom' => 'Izin Kustom',
+    'section' => 'Seksioni',
+    'resources' => 'Burimet',
+    'widgets' => 'Widgets',
+    'pages' => 'Faqet',
+    'custom' => 'Lejet e personalizuara',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'forbidden' => 'Kamu tidak punya izin akses',
+    'forbidden' => 'Nuk ke leje për të hyrë',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,17 +64,17 @@ return [
     */
 
     'resource_permission_prefixes_labels' => [
-        'view' => 'View',
-        'view_any' => 'View Any',
-        'create' => 'Create',
-        'update' => 'Update',
-        'delete' => 'Delete',
-        'delete_any' => 'Delete Any',
-        'force_delete' => 'Force Delete',
-        'force_delete_any' => 'Force Delete Any',
-        'restore' => 'Restore',
-        'replicate' => 'Replicate',
-        'reorder' => 'Reorder',
-        'restore_any' => 'Restore Any',
+        'view' => 'Shiko',
+        'view_any' => 'Shiko çdo',
+        'create' => 'Krijo',
+        'update' => 'Përditëso',
+        'delete' => 'Fshi',
+        'delete_any' => 'Fshi çdo',
+        'force_delete' => 'Fshije me forcë',
+        'force_delete_any' => 'Fshije me forcë çdo',
+        'restore' => 'Rikthe',
+        'reorder' => 'Rirendit',
+        'restore_any' => 'Rikthe çdo',
+        'replicate' => 'Ripërsërit',
     ],
 ];

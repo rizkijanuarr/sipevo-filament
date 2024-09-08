@@ -3,7 +3,6 @@
 namespace App\Filament\App\Resources;
 
 use App\Filament\App\Resources\TanggapanResource\Pages;
-use App\Filament\App\Resources\TanggapanResource\RelationManagers;
 use App\Models\Tanggapan;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,18 +10,14 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Barryvdh\DomPDF\Facade\Pdf;
-use Exception;
 
 class TanggapanResource extends Resource
 {
     use \App\Traits\HasNavigationBadge;
-    protected static ?string $navigationGroup = 'Master Data';
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
-
     protected static ?string $model = Tanggapan::class;
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
 
     public static function form(Form $form): Form
     {
@@ -51,7 +46,7 @@ class TanggapanResource extends Resource
                                 ->pluck('title', 'id');
                         })
                         ->reactive()
-                        ->afterStateUpdated(function ($state, callable $set ) {
+                        ->afterStateUpdated(function ($state, callable $set) {
 
                             $pengaduan = \App\Models\Pengaduan::find($state);
                             if ($pengaduan) {
@@ -60,14 +55,12 @@ class TanggapanResource extends Resource
                                 $set('pengaduan_location', $pengaduan->location);
                                 $set('pengaduan_image', $pengaduan->image ? [$pengaduan->image] : null);
                                 $set('pengaduan_status', $pengaduan->status->value);
-                                \Log::info('Pengaduan data:', $pengaduan->toArray());
                             } else {
                                 $set('pengaduan_title', null);
                                 $set('pengaduan_description', null);
                                 $set('pengaduan_location', null);
                                 $set('pengaduan_image', null);
                                 $set('pengaduan_status', null);
-                                \Log::warning('Pengaduan not found for ID:', ['id' => $state]);
                             }
                         })
 
@@ -121,11 +114,11 @@ class TanggapanResource extends Resource
                         ->visible(fn($get) => $get('pengaduan_id') !== null)
                         ->columnSpan(1),
                 ]),
-                    Forms\Components\Textarea::make('pengaduan_description')
-                        ->label('Description')
-                        ->disabled()
-                        ->visible(fn($get) => $get('pengaduan_id') !== null)
-                        ->columnSpan(1),
+            Forms\Components\Textarea::make('pengaduan_description')
+                ->label('Description')
+                ->disabled()
+                ->visible(fn($get) => $get('pengaduan_id') !== null)
+                ->columnSpan(1),
 
         ];
     }
@@ -170,7 +163,7 @@ class TanggapanResource extends Resource
                 Tables\Filters\Filter::make('created_at')
                     ->form([
                         Forms\Components\DatePicker::make('created_from')
-                            ->maxDate(fn (Forms\Get $get) => $get('end_date') ?: now())
+                            ->maxDate(fn(Forms\Get $get) => $get('end_date') ?: now())
                             ->native(false),
                         Forms\Components\DatePicker::make('created_until')
                             ->native(false)
@@ -180,11 +173,11 @@ class TanggapanResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     }),
             ])

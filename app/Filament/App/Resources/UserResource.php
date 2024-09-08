@@ -3,23 +3,23 @@
 namespace App\Filament\App\Resources;
 
 use App\Filament\App\Resources\UserResource\Pages;
-use App\Filament\App\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
     use \App\Traits\HasNavigationBadge;
-    protected static ?string $navigationGroup = 'Manajamen Pengguna';
+    protected static ?string $model = User::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $model = User::class;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('User Managament');
+    }
 
     public static function form(Form $form): Form
     {
@@ -32,15 +32,24 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                // Forms
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(fn($state) => bcrypt($state))
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(string $context): bool => $context === 'create')
+                    ->minLength(8)
+                    ->live(1000)
+                    ->revealable()
+                    ->same('passwordConfirmation'),
+                Forms\Components\TextInput::make('passwordConfirmation')
+                    ->password()
+                    ->dehydrated(false)
+                    ->revealable()
+                    ->hidden(fn(Forms\Get $get) => $get('password') == null),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->preload(),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
             ]);
     }
 
@@ -49,19 +58,24 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->description(fn($record) => $record->email)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                // Table
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn($state) => str($state)->title()->replace('_', ' ')),
+                // Tables\Columns\TextColumn::make('email_verified_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->formatStateUsing(fn($state) => $state ? $state->format('D d M, Y') : '-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->formatStateUsing(fn($state) => $state ? $state->format('D d M, Y') : '-')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->formatStateUsing(fn($state) => $state ? $state->format('D d M, Y') : '-')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

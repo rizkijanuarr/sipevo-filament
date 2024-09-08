@@ -11,6 +11,7 @@ use App\Filament\App\Resources\PengaduanResource;
 
 class ListPengaduans extends ListRecords
 {
+
     protected static string $resource = PengaduanResource::class;
 
     protected function getHeaderActions(): array

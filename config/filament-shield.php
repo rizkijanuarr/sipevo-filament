@@ -10,7 +10,6 @@ return [
         'is_globally_searchable' => false,
         'show_model_path' => true,
         'is_scoped_to_tenant' => true,
-        'cluster' => null,
     ],
 
     'auth_provider_model' => [
@@ -59,7 +58,6 @@ return [
     'generator' => [
         'option' => 'policies_and_permissions',
         'policy_directory' => 'Policies',
-        'policy_namespace' => 'Policies',
     ],
 
     'exclude' => [
@@ -70,7 +68,8 @@ return [
         ],
 
         'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
+            'AccountWidget',
+            'FilamentInfoWidget',
         ],
 
         'resources' => [],
@@ -83,7 +82,7 @@ return [
     ],
 
     'register_role_policy' => [
-        'enabled' => false,
+        'enabled' => true,
     ],
 
 ];

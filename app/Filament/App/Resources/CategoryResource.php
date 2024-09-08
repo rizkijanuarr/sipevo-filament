@@ -10,18 +10,13 @@ use Filament\Tables\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\CategoryResource\Pages;
-use App\Filament\App\Resources\CategoryResource\RelationManagers;
 
 class CategoryResource extends Resource
 {
     use \App\Traits\HasNavigationBadge;
-    protected static ?string $navigationGroup = 'Master Data';
-    protected static ?string $navigationIcon = 'heroicon-o-hashtag';
-
     protected static ?string $model = Category::class;
+    protected static ?string $navigationIcon = 'heroicon-o-hashtag';
 
     public static function form(Form $form): Form
     {

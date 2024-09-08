@@ -7,22 +7,15 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\Pengaduan;
 use Filament\Tables\Table;
-use App\Enums\PengaduanStatus;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
-use Filament\Resources\Components\Tab;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PengaduanResource\Pages;
-use App\Filament\App\Resources\PengaduanResource\RelationManagers;
 
 class PengaduanResource extends Resource
 {
     use \App\Traits\HasNavigationBadge;
-    protected static ?string $navigationGroup = 'Master Data';
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
-
     protected static ?string $model = Pengaduan::class;
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
     {
@@ -81,22 +74,22 @@ class PengaduanResource extends Resource
                 //
             ])
             ->actions([
-                    Tables\Actions\ViewAction::make()
-                        ->button()
-                        ->icon(false)
-                        ->color('primary'),
-                    Tables\Actions\EditAction::make()
-                        ->button()
-                        ->icon(false)
-                        ->color('success'),
-                    Tables\Actions\DeleteAction::make()
-                        ->button()
-                        ->icon(false)
-                        ->color('danger')
-                        ->before(function (Pengaduan $pengaduan) {
-                            $pengaduan->tanggapans()->delete();
-                            $pengaduan->delete();
-                        }),
+                Tables\Actions\ViewAction::make()
+                    ->button()
+                    ->icon(false)
+                    ->color('primary'),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->icon(false)
+                    ->color('success'),
+                Tables\Actions\DeleteAction::make()
+                    ->button()
+                    ->icon(false)
+                    ->color('danger')
+                    ->before(function (Pengaduan $pengaduan) {
+                        $pengaduan->tanggapans()->delete();
+                        $pengaduan->delete();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
